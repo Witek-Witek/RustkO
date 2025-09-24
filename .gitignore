@@ -10,3 +10,6 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables
+.env
