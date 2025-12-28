@@ -42,7 +42,7 @@
         <section class="contact-section">
             <div class="contact-form">
                 <h1 class="font-allura" style="font-size: 88px; line-height: 1.2; color: var(--secondary-color); text-align: left; margin-bottom: 40px;">Contact us</h1>
-                <form action="https://formspree.io/f/mwprpebl" method="POST">
+                <form id="contactForm">
                     <div class="form-group">
                         <input type="text" id="name" name="name" required>
                         <label for="name">Name, Lastname / Company name</label>
@@ -74,6 +74,42 @@
             <a href="contact.html" class="active">Contact</a>
         </nav>
     </footer>
+    <script>
+            const form = document.getElementById('contactForm');
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Zatrzymujemy domyślną wysyłkę formularza
+
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+
+                const formData = {
+                    name: name,
+                    email: email,
+                    message: message
+                };
+
+                // Wysyłamy dane do naszego backendu
+                fetch('http://127.0.0.1:8000/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    alert('Dziękujemy za wiadomość! Otrzymaliśmy ją.');
+                    form.reset(); // Czyścimy formularz po wysłaniu
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('Wystąpił błąd podczas wysyłania formularza. Spróbuj ponownie.');
+                });
+            });
+        </script>
 </body>
 </html>
 
